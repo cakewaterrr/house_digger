@@ -156,7 +156,7 @@ def gather_preferences() -> Preferences:
     min_baths_spin_box.bind("<Leave>", lambda _: user_preferences.set_min_baths_field(min_baths_spin_box.get()))
 
     #Add Preferences Set Button to close menu
-    submit_button = Button(preferences_menu, text = "Submit Preferences")
+    submit_button = Button(preferences_menu, text = "Submit Preferences", command = preferences_menu.destroy)
     submit_button.place(x = 40, y = 250)
     
     # The Menu is Running!
