@@ -3,8 +3,9 @@
 # Created By: Savannah Stephenson
 # Created Date: 9/24/2023
 #----------------------------------
-# Edited By: 
-# Edit Date: 
+# Edited By: Savannah Stephenson
+# Edit Date: 10/16/2023
+# Note: Maybe add a loading screen while the preferences are being added
 #----------------------------------
 """This file acts as the runner file for House Digger.
  """ 
