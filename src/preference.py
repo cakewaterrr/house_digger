@@ -6,9 +6,6 @@
 # Edited By: Savannah Stephenson
 # Edit Date: 10/18/2023
 # Notes: Maybe add a note for how the min and max price should be entered or a way to validate input? 
-# Edited By: Savannah Stephenson
-# Edit Date: 10/18/2023
-# Notes: Maybe add a note for how the min and max price should be entered or a way to validate input? 
 #----------------------------------
 """This file asks and sets the user's preferences.  
  """ 
