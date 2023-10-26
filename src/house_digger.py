@@ -8,8 +8,6 @@
 # Note: Maybe add a loading screen while the preferences are being added
 #----------------------------------
 """This file acts as the runner file for House Digger.
-"""This file acts as the runner file for House Digger.
-"""This file acts as the runner file for House Digger.
  """ 
 #----------------------------------
 # 
