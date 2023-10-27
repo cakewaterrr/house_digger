@@ -15,41 +15,32 @@ from bs4 import BeautifulSoup
 import requests
 import pandas as pd
 
-def scraper(list_type, property_type, min_price, max_price, min_beds, max_beds, min_baths):
+def gather_data_from_redfin(sort_by: Preferences):
+    if sort_by.listing_type == 'rent':
+        url = f'https://www.redfin.com/city/35781/TX/Corpus-Christi/apartments-for-rent/filter/property-type={sort_by.property_type[0]},min-price={sort_by.min_price}k,max-price={sort_by.max_price}k,min-beds={sort_by.min_beds},min-baths={sort_by.min_baths}'
+    else:
+        url = f'https://www.redfin.com/city/35781/TX/Corpus-Christi/filter/property-type={sort_by.property_type[0]},min-price={sort_by.min_price}k,max-price={sort_by.max_price}k,min-beds={sort_by.min_beds},max-beds={sort_by.max_beds}min-baths={sort_by.min_baths}'
 
-    property = {'Address': [],
+    page = requests.get(url)
+
+    soup = BeautifulSoup(page.text, 'html.parser')
+    homes = {'Address': [],
             'Price': [],
             'Beds': [],
             'Baths': [],
             'Footage': []}
-    
 
-    # put a while loop here to change URL to go to the next page based on the number of properties per page (looking at redfin)
+    for i in range(20):
+        home_containers = soup.find_all(class_='HomeCardContainer', id=f'MapHomeCard_{i}')
+        stats=home_containers[0].find_all(class_='stats')
 
-    if list_type == 'rent':
-        #realtor_url = f'https://www.realtor.com/apartments/Corpus-Christi_TX/'
-        redfin_url = f'https://www.redfin.com/city/35781/TX/Corpus-Christi/apartments-for-rent/filter/property-type={property_type},min-price={min_price}k,max-price={max_price}k,min-beds={min_beds},min-baths={min_baths}'
-    else:
-        #realtor_url = f'https://www.realtor.com/realestateandhomes-search/Corpus-Christi_TX/type-single-family-home/beds-2-4/baths-2-3/price-100000-1000000'
-        redfin_url = f'https://www.redfin.com/city/35781/TX/Corpus-Christi/filter/property-type={property_type},min-price={min_price}k,max-price={max_price}k,min-beds={min_beds},max-beds={max_beds}min-baths={min_baths}'
+        homes['Price'] += [(home_containers[0].find(class_='homecardV2Price').get_text())]
+        homes['Address'] += [home_containers[0].find(class_='homeAddressV2').get_text()]
+        homes['Beds'] += [stats[0].get_text()]
+        homes['Baths'] += [stats[1].get_text()]
+        homes['Footage'] += [stats[2].get_text()]
 
-    page = requests.get(redfin_url)
-
-    soup = BeautifulSoup(page.text, 'html.parser')
-
-    for i in range(39):
-        property_containers = soup.find_all(class_='HomeCardContainer', id=f'MapHomeCard_{i}')
-        stats = property_containers[0].find_all(class_='stats')
-
-        property['Price'] += [(property_containers[0].find(class_='homecardV2Price').get_text())]
-        property['Address'] += [property_containers[0].find(class_='homeAddressV2').get_text()]
-        property['Beds'] += [stats[0].get_text()]
-        property['Baths'] += [stats[1].get_text()]
-        property['Footage'] += [stats[2].get_text()]
-
-
-
-    properties = pd.DataFrame.from_dict(property)
+    properties = pd.DataFrame.from_dict(homes)
 
     return properties
 
