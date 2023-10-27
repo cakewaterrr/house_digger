@@ -19,6 +19,9 @@ from gather_data import *
 sorting_criteria = gather_preferences()
 
 #Searching according to criteria on redfin.com and printing
-print("redfin.com Listings:")
-print(gather_data_from_redfin(sorting_criteria))
+# print("redfin.com Listings:")
+# print(gather_data_from_redfin(sorting_criteria))
+
+print("homes.com Listings: ")
+print(gather_data_from_homes(sorting_criteria))
 
