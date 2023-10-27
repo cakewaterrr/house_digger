@@ -25,6 +25,7 @@ def gather_data_from_redfin(sort_by: Preferences):
     pages = [1,2,3,4,5,6,7,8] # add page 9 (figure out why page 9 i shaving issues)
 
     # dictionary to hold the attributes of the properties scraped from redfin.com
+
     homes = {'Address': [],
             'Price': [],
             'Beds': [],
@@ -83,6 +84,7 @@ def gather_data_from_redfin(sort_by: Preferences):
             homes['Footage'] += [stats[2].get_text()]
 
     # converting the dictionary into a pandas dataframe
+
     properties = pd.DataFrame.from_dict(homes)
 
     return properties

@@ -71,7 +71,9 @@ class Preferences():
     def print(self):
         ''' Function to print preference object's data. Mostly used while under development to check values are stored. 
        '''
-        print(self.location)
+        
+        print (self.location)
+
         print(self.listing_type)
         print(self.property_type)
         print(self.min_price)
@@ -89,7 +91,9 @@ def gather_preferences() -> Preferences:
 
     # Create Window Object
     preferences_menu = Tk() 
+
     preferences_menu.title("Corpus Christi Real Estate Preferences")
+
     # Initialize tkinter window with dimensions 100x100             
     preferences_menu.geometry('450x300') 
     #preferencesMenu['bg'] = '#ffbf00'
@@ -155,7 +159,9 @@ def gather_preferences() -> Preferences:
     min_baths_spin_box.place(x = 150, y = 210)
     min_baths_spin_box.bind("<Leave>", lambda _: user_preferences.set_min_baths_field(min_baths_spin_box.get()))
 
+
     # Add Preferences Set Button to close menu
+
     submit_button = Button(preferences_menu, text = "Submit Preferences", command = preferences_menu.destroy)
     submit_button.place(x = 40, y = 250)
     
@@ -163,5 +169,7 @@ def gather_preferences() -> Preferences:
     preferences_menu.mainloop() 
 
     # Returning user preferences object
+
     return user_preferences
+
 
