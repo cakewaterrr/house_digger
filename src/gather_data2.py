@@ -3,8 +3,8 @@
 # Created By: Christian Duff
 # Created Date: 10/02/2023
 #----------------------------------
-# Edited By: 
-# Edit Date: 
+# Edited By: Alicia Mares
+# Edit Date: 10/26/23
 #----------------------------------
 """This file scrapes data from real estate sites according to passed preferences. 
  """ 
