@@ -14,8 +14,6 @@
 #Imports
 from preference import *
 from gather_data import *
-#from gather_data2 import *
-#from gather_data3 import *
 
 #Gathering User's Preferences
 sorting_criteria = gather_preferences()
