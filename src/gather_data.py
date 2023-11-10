@@ -36,7 +36,7 @@ def gather_data_from_redfin(sort_by: Preferences):
         stats=home_containers[0].find_all(class_='stats')
 
         homes['Price'] += [(home_containers[0].find(class_='homecardV2Price').get_text())]
-        homes['Address'] += [home_containers[0].find(class_='homeAddressV2').get_text()]
+        homes['Address'] += [(home_containers[0].find(class_='homeAddressV2').get_text())]
         homes['Beds'] += [stats[0].get_text()]
         homes['Baths'] += [stats[1].get_text()]
         homes['Footage'] += [stats[2].get_text()]
@@ -45,6 +45,33 @@ def gather_data_from_redfin(sort_by: Preferences):
 
     return properties
 
+def gather_data_from_trulia(sort_by: Preferences):
+    if sort_by.listing_type == 'rent':
+        url = f'https://www.trulia.com/for_rent/Corpus_Christi,TX/{sort_by.min_beds}p_beds/{sort_by.min_baths}p_baths/{sort_by.min_price}-{sort_by.max_price}_price/{sort_by.property_type[0]}_type/'
+    else:
+        url = f'https://www.trulia.com/for_sale/Corpus_Christi,TX/{sort_by.min_beds}p_beds/{sort_by.min_baths}p_baths/{sort_by.min_price}-{sort_by.max_price}_price/{sort_by.property_type[0]}_type/'
+    page = requests.get(url)
+
+    soup = BeautifulSoup(page.text, 'html.parser')
+    homes = {'Address': [],
+            'Price': [],
+            'Beds': [],
+            'Baths': [],
+            'Footage': []}
+
+    for i in range(40):
+        home_containers = soup.find_all(class_='Grid__CellBox-sc-6b10767f-0 sc-fc01d244-0 fhkpkF kAfNFl', data-testid=f'srp-home-card-{i}')
+        rNr=home_containers[0].find_all(class_='Text__TextBase-sc-27a633b1-0-div Text__TextContainerBase-sc-27a633b1-1 cYrgQP gtvmjT') 
+        building=home_containers[0].find_all(class_='Text__TextBase-sc-27a633b1-0-div Text__TextContainerBase-sc-27a633b1-1 cYrgQP keSfom')
+
+        homes['Price'] += [(home_containers[0].find(class_='Text__TextBase-sc-27a633b1-0-div Text__TextContainerBase-sc-27a633b1-1 ewcDjf keSfom').get_text())]
+        homes['Address'] += [building[1].get_text()]
+        homes['Baths'] += [rNr[1].get_text()]
+        homes['Footage'] += [building[0].get_text()]
+
+    properties = pd.DataFrame.from_dict(homes)
+
+    return properties
 
 # EXAMPLE OF FUNCTION RUN BELOW
 
