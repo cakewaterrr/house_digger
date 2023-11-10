@@ -66,6 +66,7 @@ def gather_data_from_trulia(sort_by: Preferences):
 
         homes['Price'] += [(home_containers[0].find(class_='Text__TextBase-sc-27a633b1-0-div Text__TextContainerBase-sc-27a633b1-1 ewcDjf keSfom').get_text())]
         homes['Address'] += [building[1].get_text()]
+        homes['Beds'] += [rNr[0].get_text()]
         homes['Baths'] += [rNr[1].get_text()]
         homes['Footage'] += [building[0].get_text()]
 
