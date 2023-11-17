@@ -48,7 +48,7 @@ def gather_data_from_redfin(sort_by: Preferences):
             new_url = f'{url}/page-{page}' 
 
         # getting the website from the url
-        redfin = requests.get(new_url, 5)
+        redfin = requests.get(new_url, headers = {'User-agent': 'Super Bot Power Level Over 9000'})
 
         # using the soup variable to sift through the html on the website
         soup = BeautifulSoup(redfin.text, 'html.parser')
