@@ -33,18 +33,21 @@ def gather_data_from_redfin(sort_by: Preferences):
     
     # setting the url for redfin.com 
     if sort_by.listing_type == 'rent':
-        url = f'https://www.redfin.com/city/35781/TX/Corpus-Christi/apartments-for-rent/sort={sort},filter/property-type={sort_by.property_type[0]},min-price={sort_by.min_price}k,max-price={sort_by.max_price}k,min-beds={sort_by.min_beds},min-baths={sort_by.min_baths},status=active'
+        url = f'https://www.redfin.com/city/35781/TX/Corpus-Christi/apartments-for-rent/sort={sort},filter/property-type={sort_by.property_type},min-price={sort_by.min_price},max-price={sort_by.max_price},min-beds={sort_by.min_beds},min-baths={sort_by.min_baths},status=active'
     else:
-        url = f'https://www.redfin.com/city/35781/TX/Corpus-Christi/filter/sort={sort},property-type={sort_by.property_type[0]},min-price={sort_by.min_price}k,max-price={sort_by.max_price}k,min-beds={sort_by.min_beds},max-beds={sort_by.max_beds}min-baths={sort_by.min_baths},status=active'
+        url = f'https://www.redfin.com/city/35781/TX/Corpus-Christi/filter/sort={sort},property-type={sort_by.property_type},min-price={sort_by.min_price},max-price={sort_by.max_price},min-beds={sort_by.min_beds},max-beds={sort_by.max_beds},min-baths={sort_by.min_baths},status=active'
     
     # loop through and scrape the data from each page
     for page in pages:
         
-        # changing the url based on what page is being scraped 
-        new_url = f'{url}/page-{page}' 
+        if page == 1:
+            new_url = url
+        else:
+            # changing the url based on what page is being scraped 
+            new_url = f'{url}/page-{page}' 
 
         # getting the website from the url
-        redfin = requests.get(new_url)
+        redfin = requests.get(new_url, 5)
 
         # using the soup variable to sift through the html on the website
         soup = BeautifulSoup(redfin.text, 'html.parser')

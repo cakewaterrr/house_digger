@@ -30,12 +30,15 @@ sorting_criteria = gather_preferences()
 
 # gather data from the three sites
 
-redfin = gather_data_from_redfin(sorting_criteria).drop_duplicates()
+redfin = gather_data_from_redfin(sorting_criteria)
 #zillow = gather_data_from_zillow(sorting_criteria).drop_duplicates()
 #realtor = gather_data_from_realtor(sorting_criteria).drop_duplicates()
 
 # consolidate into one dataframe
+# example df = df.concat(df, zillow)
+
 df = redfin
+
 
 # drop duplicates
 df.drop_duplicates()
