@@ -77,4 +77,3 @@ app.mainloop()
 
 # print out df (create an interactive table of pandas dataframe ?)
 #print(df)
-
