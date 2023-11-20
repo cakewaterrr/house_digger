@@ -60,7 +60,7 @@ def gather_data_from_trulia(sort_by: Preferences):
             'Footage': []}
 
     for i in range(40):
-        home_containers = soup.find_all(class_='Grid__CellBox-sc-6b10767f-0 sc-fc01d244-0 fhkpkF kAfNFl', data-testid=f'srp-home-card-{i}')
+        home_containers = soup.find_all(class_='Grid__CellBox-sc-6b10767f-0 sc-fc01d244-0 fhkpkF kAfNFl', data_testid=f'srp-home-card-{i}')
         rNr=home_containers[0].find_all(class_='Text__TextBase-sc-27a633b1-0-div Text__TextContainerBase-sc-27a633b1-1 cYrgQP gtvmjT') 
         building=home_containers[0].find_all(class_='Text__TextBase-sc-27a633b1-0-div Text__TextContainerBase-sc-27a633b1-1 cYrgQP keSfom')
 
