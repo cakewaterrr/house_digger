@@ -34,9 +34,9 @@ class Preferences():
         self.min_baths = '0'
 
     def set_listing_type_field(self, listing_type: int):
-       ''' Function to set listing type
-       '''
-       self.listing_type = listing_type
+        ''' Function to set listing type
+        '''
+        self.listing_type = listing_type
             
     def set_property_type_field(self, property_type: str):
         ''' Function to set property type
@@ -45,7 +45,29 @@ class Preferences():
 
     def set_min_price_entry_field(self, min_price: str):
         ''' Function to set min price
-       '''
+        some stuff i was trying: 
+        if (not min_price.isdigit() or int(min_price) < 0):
+            popup = Tk() 
+        
+            # Initialize tkinter window with dimensions 100x100             
+            popup.geometry('600x200')
+            
+            # Add Listing type label
+            min_price_label_instructions = Label(popup, text = "Minimum Price should be entered as a numerical value greater than 0 such as: 100000")
+            min_price_label_instructions.place(x = 40, y = 30)
+            min_price_label = Label(popup, text = "Minimum Price")
+            min_price_label.place(x = 40, y = 90)
+            # Add min price text field 
+            min_price_entry = Entry(popup, width = 30)
+            min_price_entry.place(x = 150,y = 90)
+            # Adding submit button
+            submit_button = Button(popup, text = "Submit", command = lambda: [self.set_min_price_entry_field(min_price_entry.get()), popup.destroy])
+            submit_button.place(x = 40, y = 120)
+
+            #running the validation window
+            popup.mainloop() 
+        else:
+        '''
         self.min_price = int(min_price)
     
     def set_max_price_entry_field(self, max_price: str):
