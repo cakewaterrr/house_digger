@@ -16,6 +16,7 @@ import tkinter
 from tkinter import * 
 from tkinter.ttk import *
 from tkinter import ttk
+from tkinter import simpledialog
 
 class Preferences():
     ''' The Preferences class that holds the user's preferences. Includes location, listing type, property type, min price, max price, min beds, max beds, and min baths.
@@ -26,18 +27,17 @@ class Preferences():
         self.location = 'Corpus-Christi'
         self.listing_type = ' '
         self.property_type = ' '
-        self.min_price = ''
-        self.max_price = ''
-        self.min_beds = ''
-        self.max_beds = ''
-        self.min_baths = ''
+        self.min_price = '0'
+        self.max_price = '0'
+        self.min_beds = '0'
+        self.max_beds = '0'
+        self.min_baths = '0'
 
     def set_listing_type_field(self, listing_type: int):
        ''' Function to set listing type
        '''
        self.listing_type = listing_type
-    
-
+            
     def set_property_type_field(self, property_type: str):
         ''' Function to set property type
        '''
@@ -46,12 +46,12 @@ class Preferences():
     def set_min_price_entry_field(self, min_price: str):
         ''' Function to set min price
        '''
-        self.min_price = min_price
+        self.min_price = int(min_price)
     
     def set_max_price_entry_field(self, max_price: str):
         ''' Function to set max price
        '''
-        self.max_price = max_price
+        self.max_price = int(max_price)
 
     def set_min_beds_field(self, min_beds: str):
         ''' Function to set min beds
@@ -79,6 +79,119 @@ class Preferences():
         print(self.min_beds)
         print(self.max_beds)
         print(self.min_baths)
+
+'''
+    def validate(self):
+        listing_wrong = False
+        property_wrong = False
+        min_price_wrong = False
+        max_price_wrong = False
+        min_beds_wrong = False
+        max_beds_wrong = False
+        min_baths_wrong = False
+
+        if (self.listing_type != 'sale' or self.listing_type != 'rent'):
+            listing_wrong = True
+        if (self.property_type != 'house' or self.property_type != 'condo' or self.property_type != 'townhouse' or self.property_type != 'land' or self.property_type != 'multifamily'):
+            property_wrong = True
+        if (int(self.min_price) < 0):
+            min_price_wrong = True
+        if (int(self.max_price) < int(self.min_price)):
+            max_price_wrong = True
+        if ( int(self.min_beds) < 0):
+            min_beds_wrong = True
+        if ( int(self.max_beds) < int(self.min_beds)):
+            max_beds_wrong = True
+        if (self.min_baths.isdigit() and float(self.min_baths) < 0):
+            min_baths_wrong = True
+
+        self.validate_menu(listing_wrong, property_wrong, min_price_wrong, max_price_wrong, min_beds_wrong, max_beds_wrong, min_baths_wrong)
+
+    def validate_menu(self, listing_wrong, property_wrong, min_price_wrong, max_price_wrong, min_beds_wrong, max_beds_wrong, min_baths_wrong):
+        while(listing_wrong or property_wrong or min_price_wrong or max_price_wrong or min_beds_wrong or max_beds_wrong or min_baths_wrong): 
+            
+            fix_values = Tk() 
+            y_value = 30
+            
+            # Initialize tkinter window with dimensions 100x100             
+            fix_values.geometry('450x300') 
+            #preferencesMenu['bg'] = '#ffbf00'
+            
+            # Add Listing type label
+            header = Label(fix_values, text = "You have entered values that are incorrect please enter values as instructed here:")
+            header.place(x = 40, y = y_value)
+            y_value += 30
+
+            if(listing_wrong):
+                listing_type = Label(fix_values, text = "Listing Type")
+                listing_type.place(x = 40, y = y_value)
+                # Add listing type combo box
+                listing_type_options = ttk.Combobox(fix_values, width = 20) 
+                listing_type_options.place(x = 150, y = 30)
+                listing_type_options['values'] = ('sale', 'rent')
+                listing_type_options.bind("<<ComboboxSelected>>", lambda _: self.set_listing_type_field(listing_type_options.get()))
+                y_value += 30
+            if (property_wrong):
+                property_type = Label(fix_values, text = "Property Type")
+                property_type.place(x = 40, y = y_value)
+                # Add property type combo box
+                property_type_options = ttk.Combobox(fix_values, width = 20) 
+                property_type_options.place(x = 150, y = y_value)
+                property_type_options['values'] = ('house', 'condo', 'townhouse', 'land', 'multifamily')
+                # Saving the option selected
+                property_type_options.bind("<<ComboboxSelected>>", lambda _: self.set_property_type_field(property_type_options.get()))
+                y_value += 30
+            if (min_price_wrong):
+                min_price_label_instructions = Label(fix_values, text = "Minimum Price should be entered as a numerical value greater than 0 such as: 100000")
+                min_price_label_instructions.place(x = 40, y = y_value)
+                y_value += 30
+
+                min_price_label = Label(fix_values, text = "Minimum Price")
+                min_price_label.place(x = 40, y = y_value)
+                # Add min price text field 
+                min_price_entry = Entry(fix_values, width = 30)
+                min_price_entry.place(x = 150,y = y_value)
+                # Saving data entered into entry field when user leaves the field
+                min_price_entry.bind("<Leave>", lambda _: self.set_min_price_entry_field(min_price_entry.get()))
+                y_value += 30
+            if (max_price_wrong):
+                max_price_label_instructions = Label(fix_values, text = "Maximum Price should be entered as a numerical value greater than 0 such as: 100000")
+                max_price_label_instructions.place(x = 40, y = y_value)
+                y_value += 30
+
+                max_price = Label(fix_values, text = "Maximum Price")
+                max_price.place(x = 40, y = y_value)
+                # Add max price entry field
+                max_price_entry = Entry(fix_values, width = 30)
+                max_price_entry.place(x = 150,y = y_value)
+                # Saving data entered into entry field when user leaves the field
+                max_price_entry.bind("<Leave>", lambda _: self.set_max_price_entry_field(max_price_entry.get()))
+                y_value += 30
+            if (min_beds_wrong):
+                min_beds = Label(fix_values, text = "Minimum Beds")
+                min_beds.place(x = 40, y = y_value)
+                # Add min beds number scroller
+                min_beds_spin_box = Spinbox(fix_values, from_= 0, to = 10)
+                min_beds_spin_box.place(x = 150, y = y_value)
+                min_beds_spin_box.bind("<Leave>", lambda _: self.set_min_beds_field(min_beds_spin_box.get()))
+                y_value += 30
+            if (max_beds_wrong):
+                max_beds = Label(fix_values, text = "Maximum Beds")
+                max_beds.place(x = 40, y = y_value)
+                # Add max beds number scroller
+                max_beds_spin_box = Spinbox(fix_values, from_= 0, to = 10)
+                max_beds_spin_box.place(x = 150, y = y_value)
+                max_beds_spin_box.bind("<Leave>", lambda _: self.set_max_beds_field(max_beds_spin_box.get()))
+                y_value += 30
+            if (min_baths_wrong):
+                min_baths = Label(fix_values, text = "Minimum Baths").place(x = 40, y = y_value)
+                # Add min baths number scroller
+                min_baths_spin_box = Spinbox(fix_values, from_= 0, to = 10, increment = .5)
+                min_baths_spin_box.place(x = 150, y = y_value)
+                min_baths_spin_box.bind("<Leave>", lambda _: self.set_min_baths_field(min_baths_spin_box.get()))
+
+'''
+        
 
 def gather_preferences() -> Preferences:
     '''A function to gather the prefrences from the user using a pop-up window.
