@@ -177,9 +177,10 @@ def gather_data_from_zillow(sort_by: Preferences):
     #deleting rows that don't meet criteria 
     properties_filtered = properties[(properties['Price'] >= '$' + '{:,}'.format(sort_by.min_price)) & 
                                      (properties['Price'] <= '$' + '{:,}'.format(sort_by.max_price)) & 
-                                     (properties['Beds'] >= sort_by.min_beds + ' bed') & 
+                                     (properties['Beds'] >= sort_by.min_beds + ' bed') &
                                      (properties['Beds'] <= sort_by.max_beds + ' bed') & 
-                                     (properties['Baths'] >= sort_by.min_baths + ' bath')]
+                                     (properties['Baths'] >= sort_by.min_baths + ' bath') &
+                                     (properties['Baths'] == 'Not Listed')]
 
     #returning the dataframe to display in main
     return properties_filtered
