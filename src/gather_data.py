@@ -90,10 +90,10 @@ def gather_data_from_redfin(sort_by: Preferences):
     properties = pd.DataFrame.from_dict(homes)
 
     # deleting things outside of price search parameters for safety
-    properties_filtered = properties[(properties['Price'] >= '$' + '{:,}'.format(sort_by.min_price)) & 
-                                     (properties['Price'] <= '$' + '{:,}'.format(sort_by.max_price)) ]
+    #properties_filtered = properties[(properties['Price'] >= '$' + '{:,}'.format(sort_by.min_price)) & 
+    #                                 (properties['Price'] <= '$' + '{:,}'.format(sort_by.max_price)) ]
 
-    return properties_filtered
+    return properties
 
 def gather_data_from_zillow(sort_by: Preferences): 
     #zillow uses a captcha to resist scraping so to avoid that use a header
@@ -175,21 +175,22 @@ def gather_data_from_zillow(sort_by: Preferences):
     properties = pd.DataFrame.from_dict(homes)
 
     #deleting rows that don't meet criteria 
-    properties_filtered = properties[(properties['Price'] >= '$' + '{:,}'.format(sort_by.min_price)) & 
-                                     (properties['Price'] <= '$' + '{:,}'.format(sort_by.max_price)) & 
-                                     (properties['Beds'] >= sort_by.min_beds + ' bed') &
-                                     (properties['Beds'] <= sort_by.max_beds + ' bed') & 
-                                     (properties['Baths'] >= sort_by.min_baths + ' bath') &
-                                     (properties['Baths'] == 'Not Listed')]
+    #properties_filtered = properties[(properties['Price'] >= '$' + '{:,}'.format(sort_by.min_price)) & 
+    #                                 (properties['Price'] <= '$' + '{:,}'.format(sort_by.max_price)) & 
+    #                                 (properties['Beds'] >= sort_by.min_beds + ' bed') &
+    #                                 (properties['Beds'] <= sort_by.max_beds + ' bed') & 
+    #                                 (properties['Baths'] >= sort_by.min_baths + ' bath') &
+    #                                 (properties['Baths'] == 'Not Listed')]
 
     #returning the dataframe to display in main
-    return properties_filtered
+    return properties
 
 def gather_data_from_trulia(sort_by: Preferences):
     if sort_by.listing_type == 'rent':
         url = f'https://www.trulia.com/for_rent/Corpus_Christi,TX/{sort_by.min_beds}p_beds/{sort_by.min_baths}p_baths/{sort_by.min_price}-{sort_by.max_price}_price/{sort_by.property_type[0]}_type/'
     else:
         url = f'https://www.trulia.com/for_sale/Corpus_Christi,TX/{sort_by.min_beds}p_beds/{sort_by.min_baths}p_baths/{sort_by.min_price}-{sort_by.max_price}_price/{sort_by.property_type[0]}_type/'
+    
     page = requests.get(url)
 
     soup = BeautifulSoup(page.text, 'html.parser')

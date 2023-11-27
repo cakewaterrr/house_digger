@@ -68,12 +68,12 @@ class Preferences():
             popup.mainloop() 
         else:
         '''
-        self.min_price = int(min_price)
+        self.min_price = min_price
     
     def set_max_price_entry_field(self, max_price: str):
         ''' Function to set max price
        '''
-        self.max_price = int(max_price)
+        self.max_price = max_price
 
     def set_min_beds_field(self, min_beds: str):
         ''' Function to set min beds

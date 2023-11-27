@@ -28,7 +28,7 @@ redfin = gather_data_from_redfin(sorting_criteria)
 zillow = gather_data_from_zillow(sorting_criteria)
 
 #Searching according to criteria on trulia.com
-#trulia = gather_data_from_trulia(sorting_criteria)
+trulia = gather_data_from_trulia(sorting_criteria)
 
 #consolidate frames
 #frames = [zillow, trulia, redfin]
