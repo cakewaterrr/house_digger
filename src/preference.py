@@ -13,7 +13,8 @@
 # 
 #Imports
 import tkinter
-from tkinter import * 
+from tkinter import *
+from tkinter import messagebox 
 from tkinter.ttk import *
 from tkinter import ttk
 
@@ -80,6 +81,14 @@ class Preferences():
         print(self.max_beds)
         print(self.min_baths)
 
+    '''
+    def update_listing_type():
+        if listing_type_options.get() not in ('sale', 'rent'):
+            messagebox.showerror("Invalid Selection", "Please choose either 'sale' or 'rent' for the listing type.")
+         else:
+            user_preferences.set_listing_type_field(listing_type_options.get())
+    '''
+    
 def gather_preferences() -> Preferences:
     '''A function to gather the prefrences from the user using a pop-up window.
     '''
@@ -87,7 +96,7 @@ def gather_preferences() -> Preferences:
     # Create Preferences Object
     user_preferences = Preferences()
 
-    # Create Window Object
+    # Create window root and assign to preferences_menu
     preferences_menu = Tk() 
     
     # Initialize tkinter window with dimensions 100x100             
@@ -101,8 +110,21 @@ def gather_preferences() -> Preferences:
     listing_type_options = ttk.Combobox(preferences_menu, width = 20) 
     listing_type_options.place(x = 150, y = 30)
     listing_type_options['values'] = ('sale', 'rent')
-    # Saving the option selected
-    listing_type_options.bind("<<ComboboxSelected>>", lambda _: user_preferences.set_listing_type_field(listing_type_options.get()))
+    # cin>> ()
+    listing_type_options.bind("<<ComboboxSelected>>", lambda _: user_preferences.set_listing_type_field(listing_type_options.get())) 
+    # Making sure the user either chooses 'sale' or 'rent'
+
+    messagebox.showerror("Listing_type_options.get(): " + listing_type_options.get())
+
+    '''
+    while listing_type_options.get() not in ('sale', 'rent'):
+        messagebox.showerror("Invalid Selection", "Please choose either 'sale' or 'rent' for the listing type.")
+        # Now input the users' new selection
+        listing_type_options.bind("<<ComboboxSelected>>", lambda _: user_preferences.set_listing_type_field(listing_type_options.get())) 
+        # user_preferences.set_listing_type_field(listing_type_options.get())
+    '''
+    
+    # user_preferences.set_listing_type_field(listing_type_options.get())
     
     # Add property label
     property_type = Label(preferences_menu, text = "Property Type")
